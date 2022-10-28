@@ -16,6 +16,9 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
     if ($user['type'] == 'admin') {
         header('Location: admin/index.php');
         return;
+    }elseif ($user['type'] == 'academic') {
+        header('Location: academic/index.php');
+        return;
     }
     header('Location: index.php');
 }
