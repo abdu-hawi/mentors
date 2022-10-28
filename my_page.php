@@ -2,41 +2,6 @@
 require 'my_page_script.php'
 ?>
 
-    <style>
-        .rating {
-            display: flex;
-            flex-direction: row-reverse;
-            justify-content: center;
-        }
-
-        .rating > input{ display:none;}
-
-        .rating > label {
-            position: relative;
-            width: 1em;
-            font-size: 2em;
-            color: #FFD600;
-            cursor: pointer;
-            height: 40px;
-            margin-top: -7px;
-        }
-        .rating > label::before{
-            content: "\2605";
-            position: absolute;
-            opacity: 0;
-        }
-        .rating > label:hover:before,
-        .rating > label:hover ~ label:before {
-            opacity: 1 !important;
-        }
-
-        .rating > input:checked ~ label:before{
-            opacity:1;
-        }
-
-        .rating:hover > input:checked ~ label:before{ opacity: 0.4; }
-
-    </style>
 <div class="site-section ftco-subscribe-1 site-blocks-cover pb-4" style="background-image: url('images/bg_1.jpg')">
     <div class="container">
         <div class="row align-items-end">
@@ -218,8 +183,6 @@ require 'my_page_script.php'
                 }
                 ?>
             </div>
-
-
             <div class="border col-md-3 d-flex flex-column rounded p-2" style="height: fit-content;">
                 <a href="my_profile.php" type="button" class="btn btn-secondary btn-lg btn-block">My Account</a>
                 <?php
@@ -235,9 +198,18 @@ require 'my_page_script.php'
                     <button type="button" class="btn btn-secondary btn-lg btn-block">My Mentor</button>
                     <a href="communicate.php" type="button" class="btn btn-secondary btn-lg btn-block">Communication</a>
                     <button type="button" class="btn btn-secondary btn-lg btn-block">Tutoring</button>
-                    <button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#rateModal">
+                    <?php
+                    if ($qry_r->num_rows > 0){
+                        echo '<button type="button" class="disabled btn btn-secondary btn-lg btn-block">
                         Rating
-                    </button>
+                    </button>';
+                    }else{
+                        echo '<button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#rateModal">
+                        Rating
+                    </button>';
+                    }
+                    ?>
+
                     <?php
                 }
                 ?>
@@ -245,7 +217,7 @@ require 'my_page_script.php'
         </div>
     </div>
 </div>
-    <div class="modal fade show" id="rateModal" tabindex="-1" role="dialog" aria-labelledby="rateModal" aria-hidden="true">
+    <div class="modal fade" id="rateModal" tabindex="-1" role="dialog" aria-labelledby="rateModal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -253,56 +225,66 @@ require 'my_page_script.php'
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <form method="post">
-                        <table>
+                <form method="post" class="col-12">
+                    <div class="modal-body">
+                        <table class="col-12">
                             <tr>
                                 <td class="pr-3">Commitment</td>
                                 <td class="rating">
-                                    <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
-                                    <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
-                                    <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
-                                    <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
-                                    <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                    <input type="radio" name="commitment" value="5" id="a5"><label for="a5">☆</label>
+                                    <input type="radio" name="commitment" value="4" id="a4"><label for="a4">☆</label>
+                                    <input type="radio" name="commitment" value="3" id="a3"><label for="a3">☆</label>
+                                    <input type="radio" name="commitment" value="2" id="a2"><label for="a2">☆</label>
+                                    <input type="radio" name="commitment" value="1" id="a1"><label for="a1">☆</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td>Communication</td>
                                 <td class="rating">
-                                    <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
-                                    <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
-                                    <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
-                                    <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
-                                    <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                    <input type="radio" name="communication" value="5" id="b5"><label for="b5">☆</label>
+                                    <input type="radio" name="communication" value="4" id="b4"><label for="b4">☆</label>
+                                    <input type="radio" name="communication" value="3" id="b3"><label for="b3">☆</label>
+                                    <input type="radio" name="communication" value="2" id="b2"><label for="b2">☆</label>
+                                    <input type="radio" name="communication" value="1" id="b1"><label for="b1">☆</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td>Involvement</td>
                                 <td class="rating">
-                                    <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
-                                    <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
-                                    <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
-                                    <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
-                                    <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                    <input type="radio" name="involvement" value="5" id="c5"><label for="c5">☆</label>
+                                    <input type="radio" name="involvement" value="4" id="c4"><label for="c4">☆</label>
+                                    <input type="radio" name="involvement" value="3" id="c3"><label for="c3">☆</label>
+                                    <input type="radio" name="involvement" value="2" id="c2"><label for="c2">☆</label>
+                                    <input type="radio" name="involvement" value="1" id="c1"><label for="c1">☆</label>
                                 </td>
                             </tr>
                             <tr>
                                 <td>Performance</td>
                                 <td class="rating">
-                                    <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
-                                    <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
-                                    <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
-                                    <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
-                                    <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                    <input type="radio" name="performance" value="5" id="d5"><label for="d5">☆</label>
+                                    <input type="radio" name="performance" value="4" id="d4"><label for="d4">☆</label>
+                                    <input type="radio" name="performance" value="3" id="d3"><label for="d3">☆</label>
+                                    <input type="radio" name="performance" value="2" id="d2"><label for="d2">☆</label>
+                                    <input type="radio" name="performance" value="1" id="d1"><label for="d1">☆</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">More feedback:</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <textarea rows="3" name="feedback" class="form-control"></textarea>
                                 </td>
                             </tr>
                         </table>
-                    </form>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
+                    </div>
+                    <input name="rate" value="rate" type="hidden">
+                    <input name="email" value="<?php if($users > 0) echo $users[0]['email']; ?>" type="hidden">
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Rating</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
