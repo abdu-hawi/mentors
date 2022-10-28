@@ -5,26 +5,39 @@ if( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
     if (session_status() != PHP_SESSION_ACTIVE) {
         require 'db/session.php';
     }
-    $conn->begin_transaction();
-    try {
-        $email = trim($_POST['email']);
-        $user_id = $_SESSION['userinfo']['id'];
-        $subject = trim($_POST['subject']);
-        $qry_replay = "INSERT INTO `ticket_replays` (`subject`, `ticket_id`, `user_id`) 
+    $email = trim($_POST['email']);
+    if (isset($_POST['subject'])){
+        $conn->begin_transaction();
+        try {
+            $user_id = $_SESSION['userinfo']['id'];
+            $subject = trim($_POST['subject']);
+            $qry_replay = "INSERT INTO `ticket_replays` (`subject`, `ticket_id`, `user_id`) 
                 VALUES ('".$subject."', '".$ticket_id."', '".$user_id."')";
-        mysqli_query($conn, $qry_replay);
-        if ($_SESSION['userinfo']['level'] > 4){
-            $user_type = 'mentor';
-        }else{
-            $user_type = 'mentee';
+            mysqli_query($conn, $qry_replay);
+            if ($_SESSION['userinfo']['level'] > 4){
+                $user_type = 'mentor';
+            }else{
+                $user_type = 'mentee';
+            }
+            $qry_ticket = "UPDATE `tickets` SET `status` = '".$user_type."' WHERE `id` = ".$ticket_id;
+            mysqli_query($conn, $qry_ticket);
+            sendEmail($email, 'New replay', 'sent new replay');
+            $conn->commit();
+            header('Location: '.$_SERVER['PHP_SELF'].'?ticket='.$ticket_id);
+        }catch (Exception $exception){
+            $conn->rollback();
         }
-        $qry_ticket = "UPDATE `tickets` SET `status` = '".$user_type."' WHERE `id` = ".$ticket_id;
+    }elseif (isset($_POST['close'])){
+        $qry_ticket = "UPDATE `tickets` SET `status` = 'closed' WHERE `id` = ".$ticket_id;
         mysqli_query($conn, $qry_ticket);
-
-        include 'url.php';
-        $url = url()['url'] . $_SERVER['HTTP_HOST'] . url()['path'];//.'?ticket='.$ticket_id;
-        include 'sendEmail.php';
-        $body = '<b>'.$_SESSION['userinfo']['name']."</b> sent new replay <br>
+        sendEmail($email, 'Close ticket', 'close ticket');
+    }
+}
+function sendEmail($email, $title, $text_body): void{
+    include 'url.php';
+    $url = url()['url'] . $_SERVER['HTTP_HOST'] . url()['path'];//.'?ticket='.$ticket_id;
+    include 'sendEmail.php';
+    $body = '<b>'.$_SESSION['userinfo']['name']."</b> ".$text_body." <br>
 To show ticket, please click button below <br> 
 <a href='".$url."' style='cursor: pointer;'>
 <button style='padding: 0.25rem 1rem;cursor: pointer;color: #fff;
@@ -43,13 +56,7 @@ To show ticket, please click button below <br>
 <hr>
 If you are can't click button you copy and past link bellow in your browser
 <br>".$url ;
-        send($email, 'New replay', $body);
-
-        $conn->commit();
-        header('Location: '.$_SERVER['PHP_SELF'].'?ticket='.$ticket_id);
-    }catch (Exception $exception){
-        $conn->rollback();
-    }
+    send($email, $title, $body);
 }
 require 'header.php';
 $qry = "SELECT `ticket_replays`.*,`tickets`.* , `users`.`id` as `u_id`, `users`.`name`, `users`.`email` 
@@ -93,23 +100,54 @@ while ($rows = $qry->fetch_assoc()){
 
 <div class="site-section">
     <div class="container">
-        <div class="row">
-            <p>
+        <?php
+        if ($tickets[0]['status'] == 'closed'){
+            ?>
+            <div class="alert alert-danger text-center">
+                This ticket is closed
+                <br>
+            <?php
+            if ($_SESSION['userinfo']['level'] < 5){
+                ?>
+                If you want to reopen, just write new replay
+                <?php
+            }
+            ?>
+            </div>
+            <?php
+        }
+        ?>
+        <div class="row justify-content-between">
+            <?php
+            if ($_SESSION['userinfo']['level'] < 5 || $tickets[0]['status'] != 'closed'){
+            ?>
                 <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
                     New replay
                 </a>
-            </p>
-            <div class="collapse col-12" id="collapseExample">
-                <form method="post" class="col-12">
-                    <div class="form-group col-12">
-                        <label class="text-dark" for="subject" style="font-weight: 600">Subject</label>
-                        <textarea class="form-control" id="subject" name="subject" rows="7"></textarea>
-                    </div>
+                <div class="collapse col-12" id="collapseExample">
+                    <form method="post" class="col-12">
+                        <div class="form-group col-12">
+                            <label class="text-dark" for="subject" style="font-weight: 600">Subject</label>
+                            <textarea class="form-control" id="subject" name="subject" rows="7"></textarea>
+                        </div>
+                        <input type="hidden" name="email" value="<?php echo $tickets[0]['email'] ?>">
+                        <button class="form-group btn btn-primary col-2" type="submit">Add replay</button>
+                    </form>
+                </div>
+            <?php
+            }
+            ?>
+            <?php
+            if ($tickets[0]['status'] != 'closed'){
+                ?>
+                <form method="post">
+                    <input type="hidden" value="close" name="close">
                     <input type="hidden" name="email" value="<?php echo $tickets[0]['email'] ?>">
-                    <button class="form-group btn btn-primary col-2" type="submit">Add replay</button>
+                    <button type="submit" class="btn btn-danger">Close ticket</button>
                 </form>
-            </div>
-
+            <?php
+            }
+            ?>
         </div>
         <div class="row">
             <?php

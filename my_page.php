@@ -2,6 +2,41 @@
 require 'my_page_script.php'
 ?>
 
+    <style>
+        .rating {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: center;
+        }
+
+        .rating > input{ display:none;}
+
+        .rating > label {
+            position: relative;
+            width: 1em;
+            font-size: 2em;
+            color: #FFD600;
+            cursor: pointer;
+            height: 40px;
+            margin-top: -7px;
+        }
+        .rating > label::before{
+            content: "\2605";
+            position: absolute;
+            opacity: 0;
+        }
+        .rating > label:hover:before,
+        .rating > label:hover ~ label:before {
+            opacity: 1 !important;
+        }
+
+        .rating > input:checked ~ label:before{
+            opacity:1;
+        }
+
+        .rating:hover > input:checked ~ label:before{ opacity: 0.4; }
+
+    </style>
 <div class="site-section ftco-subscribe-1 site-blocks-cover pb-4" style="background-image: url('images/bg_1.jpg')">
     <div class="container">
         <div class="row align-items-end">
@@ -200,7 +235,9 @@ require 'my_page_script.php'
                     <button type="button" class="btn btn-secondary btn-lg btn-block">My Mentor</button>
                     <a href="communicate.php" type="button" class="btn btn-secondary btn-lg btn-block">Communication</a>
                     <button type="button" class="btn btn-secondary btn-lg btn-block">Tutoring</button>
-                    <button type="button" class="btn btn-secondary btn-lg btn-block">Rating</button>
+                    <button type="button" class="btn btn-secondary btn-lg btn-block" data-toggle="modal" data-target="#rateModal">
+                        Rating
+                    </button>
                     <?php
                 }
                 ?>
@@ -208,6 +245,66 @@ require 'my_page_script.php'
         </div>
     </div>
 </div>
-
+    <div class="modal fade show" id="rateModal" tabindex="-1" role="dialog" aria-labelledby="rateModal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post">
+                        <table>
+                            <tr>
+                                <td class="pr-3">Commitment</td>
+                                <td class="rating">
+                                    <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                                    <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                                    <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                                    <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                                    <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Communication</td>
+                                <td class="rating">
+                                    <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                                    <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                                    <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                                    <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                                    <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Involvement</td>
+                                <td class="rating">
+                                    <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                                    <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                                    <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                                    <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                                    <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Performance</td>
+                                <td class="rating">
+                                    <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                                    <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                                    <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                                    <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                                    <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 <?php include 'footer.php'; ?>
