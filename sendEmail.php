@@ -4,9 +4,15 @@
 // These must be at the top of your script, not inside a function
 use PHPMailer\PHPMailer\PHPMailer;
 
-require_once './PHPMailer/src/Exception.php';
-require_once './PHPMailer/src/PHPMailer.php';
-require_once './PHPMailer/src/SMTP.php';
+if(file_exists('./PHPMailer/src/Exception.php')) {
+    require_once './PHPMailer/src/Exception.php';
+    require_once './PHPMailer/src/PHPMailer.php';
+    require_once './PHPMailer/src/SMTP.php';
+}else{
+    require_once '../PHPMailer/src/Exception.php';
+    require_once '../PHPMailer/src/PHPMailer.php';
+    require_once '../PHPMailer/src/SMTP.php';
+}
 
 function send($email, $subject, $body){
 

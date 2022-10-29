@@ -9,6 +9,8 @@ foreach ($l as $k=>$ll){
         $path = $ll;
         $page_name = ucfirst(explode('.', $ll)[0]);
         if ($page_name == 'Index') $page_name = 'Dashboard';
+        elseif ($page_name == 'Approve_rating') $page_name = 'Approve rating';
+        elseif ($page_name == 'Add_volunteer_hour') $page_name = 'Add volunteer hour';
         break;
     }
     $path = 'index.php';
@@ -17,6 +19,8 @@ function get_menu(string $name, string $icon): string{
     global $path;
     global $page_name;
     if ($name == 'Dashboard') $name = 'index';
+    elseif ($name == 'Approve rating') $name = 'approve_rating';
+    elseif ($name == 'Add volunteer hour') $name = 'add_volunteer_hour';
     if (strtolower($name).'.php' == $path){
         $txt = '<a href="'.strtolower($name).'.php" class="list-group-item list-group-item-action bg-transparent second-text active"><i
                         class="'.$icon.' me-2 third-text"></i>';
@@ -25,6 +29,8 @@ function get_menu(string $name, string $icon): string{
                         class="'.$icon.' me-2"></i>';
     }
     if ($name == 'index') $name = 'Dashboard';
+    elseif ($name == 'approve_rating') $name = 'Approve rating';
+    elseif ($name == 'add_volunteer_hour') $name = 'Add volunteer hour';
     $txt .= $name;
     $txt .='</a>';
     return $txt;
@@ -53,8 +59,10 @@ function get_menu(string $name, string $icon): string{
         </div>
         <div class="list-group list-group-flush my-3">
             <?php echo get_menu('Dashboard', 'fas fa-tachometer-alt'); ?>
-            <?php echo get_menu('Mentors', 'fa-solid fa-chalkboard-user'); ?>
-            <?php echo get_menu('Mentees', 'fa-solid fa-users-rectangle'); ?>
+            <?php echo get_menu('Approve rating', 'fas fa-star-half-stroke'); ?>
+            <?php echo get_menu('Add volunteer hour', 'fa-solid fa-hand-holding-medical'); ?>
+            <?php /*echo get_menu('Mentors', 'fa-solid fa-chalkboard-user'); */?><!--
+            --><?php /*echo get_menu('Mentees', 'fa-solid fa-users-rectangle'); */?>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->
