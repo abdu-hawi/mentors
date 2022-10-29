@@ -139,7 +139,7 @@ while ($rows = $qry->fetch_assoc()) {
                 }
             }else{
                 echo '<tr>
-<td colspan="3" class="text-center py-2 text-primary">You don\'t have any volunteer need add hours,<br> check approve rating menu to see if any one need approve</td>
+<td colspan="3" class="text-center py-4 bg-dark bg-gradient text-primary" style="font-weight: 500">You don\'t have any volunteer need add hours,<br> check approve rating menu to see if any one need approve</td>
 </tr>';
             }
             ?>
