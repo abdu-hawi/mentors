@@ -85,56 +85,62 @@ while ($rows = $qry->fetch_assoc()) {
             </tr>
             </thead>
             <?php
-            foreach ($mentors as $mentor){
-            ?>
-                <tr>
-                    <td><?php echo $mentor['name']; ?></td>
-                    <td class="text-center"><?php echo $mentor['rate']; ?></td>
-                    <td class="text-center">
-                        <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
-                                data-bs-target="#volModal<?php echo $mentor['mentor_id']; ?>">
-                            <i class="fa fa-plus"></i>
-                        </button>
-                    </td>
-                </tr>
+            if (count($mentors) > 0){
+                foreach ($mentors as $mentor){
+                    ?>
+                    <tr>
+                        <td><?php echo $mentor['name']; ?></td>
+                        <td class="text-center"><?php echo $mentor['rate']; ?></td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal"
+                                    data-bs-target="#volModal<?php echo $mentor['mentor_id']; ?>">
+                                <i class="fa fa-plus"></i>
+                            </button>
+                        </td>
+                    </tr>
 
-                <!-- Modal -->
-                <div class="modal fade" id="volModal<?php echo $mentor['mentor_id']; ?>" tabindex="-1"
-                     aria-labelledby="volModal<?php echo $mentor['mentor_id']; ?>" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="rateModal<?php echo $mentor['mentor_id']; ?>">
-                                    Mentor: <?php echo $mentor['name']; ?>
-                                </h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <form method="post" class="col-12">
-                                <div class="modal-body">
-                                    <div class="mb-4">
-                                        <span class="fw-bold">Rate: <?php echo $mentor['rate']; ?> stars</span>
+                    <!-- Modal -->
+                    <div class="modal fade" id="volModal<?php echo $mentor['mentor_id']; ?>" tabindex="-1"
+                         aria-labelledby="volModal<?php echo $mentor['mentor_id']; ?>" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="rateModal<?php echo $mentor['mentor_id']; ?>">
+                                        Mentor: <?php echo $mentor['name']; ?>
+                                    </h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form method="post" class="col-12">
+                                    <div class="modal-body">
+                                        <div class="mb-4">
+                                            <span class="fw-bold">Rate: <?php echo $mentor['rate']; ?> stars</span>
+                                        </div>
+                                        <select class="form-select" name="rate" aria-label=".form-select-sm example">
+                                            <option selected>Open this select menu</option>
+                                            <option value="2">20 stars => 2 hours</option>
+                                            <option value="1.5">15 stars => 1.5 hours</option>
+                                            <option value="1">10 stars => 1 hours</option>
+                                            <option value=".5">5 stars => .5 hours</option>
+                                        </select>
                                     </div>
-                                    <select class="form-select" name="rate" aria-label=".form-select-sm example">
-                                        <option selected>Open this select menu</option>
-                                        <option value="2">20 stars => 2 hours</option>
-                                        <option value="1.5">15 stars => 1.5 hours</option>
-                                        <option value="1">10 stars => 1 hours</option>
-                                        <option value=".5">5 stars => .5 hours</option>
-                                    </select>
-                                </div>
 
-                                <input name="id" value="<?php echo $mentor['r_id']; ?>" type="hidden">
-                                <input name="mentor_id" value="<?php echo $mentor['mentor_id']; ?>" type="hidden">
-                                <input name="email" value="<?php echo $mentor['email']; ?>" type="hidden">
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                    <input type="submit" name="status" value="Add"  class="btn btn-primary">
-                                </div>
-                            </form>
+                                    <input name="id" value="<?php echo $mentor['r_id']; ?>" type="hidden">
+                                    <input name="mentor_id" value="<?php echo $mentor['mentor_id']; ?>" type="hidden">
+                                    <input name="email" value="<?php echo $mentor['email']; ?>" type="hidden">
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <input type="submit" name="status" value="Add"  class="btn btn-primary">
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                </div>
-            <?php
+                    <?php
+                }
+            }else{
+                echo '<tr>
+<td colspan="3" class="text-center py-2 text-primary">You don\'t have any volunteer need add hours,<br> check approve rating menu to see if any one need approve</td>
+</tr>';
             }
             ?>
         </table>
