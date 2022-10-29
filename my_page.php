@@ -191,7 +191,7 @@ require 'my_page_script.php'
                     <button type="button" class="btn btn-secondary btn-lg btn-block">My Mentees</button>
                     <a href="communicate.php" type="button" class="btn btn-secondary btn-lg btn-block">Communication</a>
                     <button type="button" class="btn btn-secondary btn-lg btn-block">Volunteering Hours</button>
-                    <button type="button" class="btn btn-secondary btn-lg btn-block">My Certificate</button>
+                    <a href="certificate.php" TARGET="_blank" type="button" class="btn btn-secondary btn-lg btn-block">My Certificate</a>
                     <?php
                 }else{
                     ?>
