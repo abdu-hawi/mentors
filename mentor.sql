@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 29, 2022 at 05:29 PM
+-- Generation Time: Oct 30, 2022 at 03:16 PM
 -- Server version: 10.4.24-MariaDB
--- PHP Version: 8.1.6
+-- PHP Version: 7.4.29
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -188,6 +188,7 @@ CREATE TABLE `users` (
   `gender` enum('Male','Female') DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `date_of_birthday` date DEFAULT NULL,
+  `branch` varchar(6) DEFAULT NULL,
   `college` enum('Computing and Informatics','Administrative and Financial Science','Health Science','Science and Theoretical Studies') DEFAULT NULL,
   `level` enum('1','2','3','4','5','6','7','8') DEFAULT NULL,
   `major` varchar(50) DEFAULT NULL,
@@ -202,25 +203,25 @@ CREATE TABLE `users` (
 -- Dumping data for table `users`
 --
 
-INSERT INTO `users` (`id`, `name`, `email`, `type`, `gender`, `password`, `date_of_birthday`, `college`, `level`, `major`, `mobile`, `rate`, `status`, `supervisor_id`, `volunteer_hour`) VALUES
-(1, 'Selma Valdez', 'rydehujet@mailinator.com', 'user', 'Female', '81dc9bdb52d04dc20036dbd8313ed055', '2017-08-14', 'Administrative and Financial Science', '6', 'Ea animi temporibus', '+1 (485) ', 0, 'active', NULL, '1.5'),
-(2, 'Abdu Hawi', 'admin@admin.com', 'admin', 'Male', '81dc9bdb52d04dc20036dbd8313ed055', NULL, NULL, NULL, NULL, NULL, 0, '', NULL, '0.0'),
-(13, 'Xenos Solis', 'ac@ac.com', 'academic', 'Male', '81dc9bdb52d04dc20036dbd8313ed055', '1990-02-09', 'Health Science', '6', 'Sed aliquip enim ali', '+1 (354) ', 5, 'active', NULL, '0.0'),
-(14, 'Riley Lane', 'baqukoxyf@mailinator.com', 'user', 'Female', '81dc9bdb52d04dc20036dbd8313ed055', '1998-11-01', 'Administrative and Financial Science', '1', 'Quaerat repellendus', '+1 (378) ', 0, 'active', 13, '0.0'),
-(17, 'Dustin Short', 'tigoliji@mailinator.com', 'user', 'Male', '81dc9bdb52d04dc20036dbd8313ed055', '2001-01-25', 'Administrative and Financial Science', '8', 'Adipisci consequat', '+1 (428) ', 0, 'deactive', NULL, '0.0'),
-(22, 'Reese Michael', 'xecolikom@mailinator.com', 'user', 'Female', '81dc9bdb52d04dc20036dbd8313ed055', '1980-11-03', 'Computing and Informatics', '1', 'Eius culpa id ea m', '+1 (676) ', 0, 'deactive', 13, '0.0'),
-(27, 'Zelenia Hodge', 'tuwizasut@mailinator.com', 'user', 'Female', '81dc9bdb52d04dc20036dbd8313ed055', '1987-06-05', 'Administrative and Financial Science', '8', 'Dolore ad modi earum', '+1 (613) ', 2, 'active', NULL, '0.0'),
-(32, 'Genevieve Potter', 'xyhymy@mailinator.com', 'user', 'Male', '81dc9bdb52d04dc20036dbd8313ed055', '1980-01-19', 'Administrative and Financial Science', '3', 'Natus sapiente corru', '+1 (974) ', 0, 'active', NULL, '0.0'),
-(36, 'Jael Webster', 'piwyvosupa@mailinator.com', 'user', 'Male', '81dc9bdb52d04dc20036dbd8313ed055', '1975-08-04', 'Administrative and Financial Science', '3', 'Dolores quod ipsum u', '+1 (665) ', 0, 'active', NULL, '0.0'),
-(47, 'Clarke Butler', 'pixajixydo@mailinator.com', 'user', 'Female', '81dc9bdb52d04dc20036dbd8313ed055', '1971-02-14', 'Science and Theoretical Studies', '4', 'Quisquam sit qui an', '+1 (991) ', 0, 'active', NULL, '0.0'),
-(51, 'Porter Cruz', 'abdu.test03@gmail.com', 'user', 'Male', '81dc9bdb52d04dc20036dbd8313ed055', '2017-10-30', 'Science and Theoretical Studies', '7', 'Reprehenderit molli', '+1 (979) ', 3, 'active', NULL, '0.0'),
-(56, 'Whoopi Hodges', 'ripe@mailinator.com', 'user', 'Male', '81dc9bdb52d04dc20036dbd8313ed055', '1976-11-07', 'Computing and Informatics', '8', 'Et iste molestias er', '+1 (653) ', 0, 'active', NULL, '0.0'),
-(61, 'Jenna Walter', 'sadikola@mailinator.com', 'user', 'Male', '81dc9bdb52d04dc20036dbd8313ed055', '1996-11-02', 'Science and Theoretical Studies', '1', 'Qui ratione est dol', '+1 (314) ', 0, 'active', 1, '0.0'),
-(82, 'Aquila Smith', 'nobuduby@mailinator.com', 'user', 'Female', '81dc9bdb52d04dc20036dbd8313ed055', '1990-02-17', 'Science and Theoretical Studies', '7', 'Ex ipsum labore sin', '+1 (508) ', 0, 'active', NULL, '0.0'),
-(91, 'Donovan Ross', 'kigilyw@mailinator.com', 'user', 'Male', '81dc9bdb52d04dc20036dbd8313ed055', '2006-08-01', 'Computing and Informatics', '7', 'In voluptas lorem vo', '+1 (243) ', 0, 'active', NULL, '0.0'),
-(98, 'Noelani Calderon', 'haqiz@mailinator.com', 'user', 'Female', '81dc9bdb52d04dc20036dbd8313ed055', '2016-04-04', 'Administrative and Financial Science', '3', 'Commodi corporis qui', '+1 (675) ', 0, 'active', NULL, '0.0'),
-(150, 'Nolan Frazier', 'hekeh@mailinator.com', 'user', 'Male', '81dc9bdb52d04dc20036dbd8313ed055', '1989-02-13', 'Administrative and Financial Science', '3', 'Accusamus aut volupt', '+1 (553) ', 0, 'active', NULL, '0.0'),
-(1557, 'Jasmine Wood', 'fonudavena@mailinator.com', 'user', 'Female', '81dc9bdb52d04dc20036dbd8313ed055', '2022-10-09', 'Computing and Informatics', '2', 'Voluptatem sed imped', '+1 (682)', 0, 'active', 51, '0.0');
+INSERT INTO `users` (`id`, `name`, `email`, `type`, `gender`, `password`, `date_of_birthday`, `branch`, `college`, `level`, `major`, `mobile`, `rate`, `status`, `supervisor_id`, `volunteer_hour`) VALUES
+(1, 'Selma Valdez', 'rydehujet@mailinator.com', 'user', 'Female', '81dc9bdb52d04dc20036dbd8313ed055', '2017-08-14', 'Qassim', 'Administrative and Financial Science', '6', 'Ea animi temporibus', '+1 (485) ', 0, 'active', NULL, '1.5'),
+(2, 'Abdu Hawi', 'admin@admin.com', 'admin', 'Male', '81dc9bdb52d04dc20036dbd8313ed055', NULL, NULL, NULL, NULL, NULL, NULL, 0, '', NULL, '0.0'),
+(13, 'Xenos Solis', 'ac@ac.com', 'academic', 'Male', '81dc9bdb52d04dc20036dbd8313ed055', '1990-02-09', 'Riyadh', 'Health Science', '6', 'Sed aliquip enim ali', '+1 (354) ', 5, 'active', NULL, '0.0'),
+(14, 'Riley Lane', 'baqukoxyf@mailinator.com', 'user', 'Female', '81dc9bdb52d04dc20036dbd8313ed055', '1998-11-01', 'Riyadh', 'Administrative and Financial Science', '1', 'Quaerat repellendus', '+1 (378) ', 0, 'active', 13, '0.0'),
+(17, 'Dustin Short', 'tigoliji@mailinator.com', 'user', 'Male', '81dc9bdb52d04dc20036dbd8313ed055', '2001-01-25', 'Jeddah', 'Administrative and Financial Science', '8', 'Adipisci consequat', '+1 (428) ', 0, 'deactive', NULL, '0.0'),
+(22, 'Reese Michael', 'xecolikom@mailinator.com', 'user', 'Female', '81dc9bdb52d04dc20036dbd8313ed055', '1980-11-03', 'Jeddah', 'Computing and Informatics', '1', 'Eius culpa id ea m', '+1 (676) ', 0, 'deactive', 13, '0.0'),
+(27, 'Zelenia Hodge', 'tuwizasut@mailinator.com', 'user', 'Female', '81dc9bdb52d04dc20036dbd8313ed055', '1987-06-05', 'Dammam', 'Administrative and Financial Science', '8', 'Dolore ad modi earum', '+1 (613) ', 2, 'active', NULL, '0.0'),
+(32, 'Genevieve Potter', 'xyhymy@mailinator.com', 'user', 'Male', '81dc9bdb52d04dc20036dbd8313ed055', '1980-01-19', 'Dammam', 'Administrative and Financial Science', '3', 'Natus sapiente corru', '+1 (974) ', 0, 'active', NULL, '0.0'),
+(36, 'Jael Webster', 'piwyvosupa@mailinator.com', 'user', 'Male', '81dc9bdb52d04dc20036dbd8313ed055', '1975-08-04', 'Dammam', 'Administrative and Financial Science', '3', 'Dolores quod ipsum u', '+1 (665) ', 0, 'active', NULL, '0.0'),
+(47, 'Clarke Butler', 'pixajixydo@mailinator.com', 'user', 'Female', '81dc9bdb52d04dc20036dbd8313ed055', '1971-02-14', 'Medina', 'Science and Theoretical Studies', '4', 'Quisquam sit qui an', '+1 (991) ', 0, 'active', NULL, '0.0'),
+(51, 'Porter Cruz', 'abdu.test03@gmail.com', 'user', 'Male', '81dc9bdb52d04dc20036dbd8313ed055', '2017-10-30', 'Medina', 'Science and Theoretical Studies', '7', 'Reprehenderit molli', '+1 (979) ', 3, 'active', NULL, '0.0'),
+(56, 'Whoopi Hodges', 'ripe@mailinator.com', 'user', 'Male', '81dc9bdb52d04dc20036dbd8313ed055', '1976-11-07', 'Riyadh', 'Computing and Informatics', '8', 'Et iste molestias er', '+1 (653) ', 0, 'active', NULL, '0.0'),
+(61, 'Jenna Walter', 'sadikola@mailinator.com', 'user', 'Male', '81dc9bdb52d04dc20036dbd8313ed055', '1996-11-02', 'Riyadh', 'Science and Theoretical Studies', '1', 'Qui ratione est dol', '+1 (314) ', 0, 'active', 1, '0.0'),
+(82, 'Aquila Smith', 'nobuduby@mailinator.com', 'user', 'Female', '81dc9bdb52d04dc20036dbd8313ed055', '1990-02-17', 'Riyadh', 'Science and Theoretical Studies', '7', 'Ex ipsum labore sin', '+1 (508) ', 0, 'active', NULL, '0.0'),
+(91, 'Donovan Ross', 'kigilyw@mailinator.com', 'user', 'Male', '81dc9bdb52d04dc20036dbd8313ed055', '2006-08-01', 'Jeddah', 'Computing and Informatics', '7', 'In voluptas lorem vo', '+1 (243) ', 0, 'active', NULL, '0.0'),
+(98, 'Noelani Calderon', 'haqiz@mailinator.com', 'user', 'Female', '81dc9bdb52d04dc20036dbd8313ed055', '2016-04-04', 'Jeddah', 'Administrative and Financial Science', '3', 'Commodi corporis qui', '+1 (675) ', 0, 'active', NULL, '0.0'),
+(150, 'Nolan Frazier', 'hekeh@mailinator.com', 'user', 'Male', '81dc9bdb52d04dc20036dbd8313ed055', '1989-02-13', 'Jeddah', 'Administrative and Financial Science', '3', 'Accusamus aut volupt', '+1 (553) ', 0, 'active', NULL, '0.0'),
+(1557, 'Jasmine Wood', 'fonudavena@mailinator.com', 'user', 'Female', '81dc9bdb52d04dc20036dbd8313ed055', '2022-10-09', 'Jeddah', 'Computing and Informatics', '2', 'Voluptatem sed imped', '+1 (682)', 0, 'active', 51, '0.0');
 
 --
 -- Indexes for dumped tables

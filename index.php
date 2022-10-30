@@ -1,9 +1,9 @@
 <?php
 include 'db/db.php';
+if (session_status() != PHP_SESSION_ACTIVE) {
+    require 'db/session.php';
+}
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['mentor_id'])){
-    if (session_status() != PHP_SESSION_ACTIVE) {
-        require 'db/session.php';
-    }
     $mentee_id = $_SESSION['userinfo']['id'];
     $mentor_id = $_POST['mentor_id'];
     $qry = "INSERT INTO `requests` (`mentee_id`, `mentor_id`) 
@@ -11,6 +11,17 @@ if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['mentor_id'])){
     mysqli_query($conn, $qry);
     header('Location: '.$_SERVER['PHP_SELF']);
 }
+
+$isHaveRequest = false;
+if ($_SESSION['userinfo']){
+    $qry_request = "SELECT * FROM `requests` WHERE `status` != 'decline' AND `mentee_id` = ".$_SESSION['userinfo']['id'];
+    $qry_request = mysqli_query($conn, $qry_request);
+    if ($qry_request->num_rows > 0
+        && $qry_request->fetch_assoc()['status'] != 'decline'){
+        $isHaveRequest = true;
+    }
+}
+
 include 'header.php';
 //SELECT * FROM `users`
 $qry = "SELECT * FROM `users` WHERE `status` = 'active' AND `level` > 4";
@@ -98,7 +109,7 @@ while ($row = $qry->fetch_assoc()){
                                         </div>
                                     </div>
                                     <?php
-                                    if ($_SESSION['userinfo'] && empty($_SESSION['userinfo']['supervisor_id'])){
+                                    if ($_SESSION['userinfo'] && empty($_SESSION['userinfo']['supervisor_id']) && !$isHaveRequest){
                                         ?>
                                         <form method="post" class="row justify-content-center">
                                             <input type="hidden" name="mentor_id" value="<?php echo $mentor['id']; ?>">

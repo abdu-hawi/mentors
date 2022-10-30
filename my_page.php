@@ -197,7 +197,7 @@ require 'my_page_script.php'
                     ?>
                     <button type="button" class="btn btn-secondary btn-lg btn-block">My Mentor</button>
                     <a href="communicate.php" type="button" class="btn btn-secondary btn-lg btn-block">Communication</a>
-                    <button type="button" class="btn btn-secondary btn-lg btn-block">Tutoring</button>
+                    <a href="tutoring.php" type="button" class="btn btn-secondary btn-lg btn-block">Tutoring</a>
                     <?php
                     if ($qry_r->num_rows > 0){
                         echo '<button type="button" class="disabled btn btn-secondary btn-lg btn-block">

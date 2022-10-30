@@ -5,58 +5,7 @@ if (session_status() != PHP_SESSION_ACTIVE) {
     require 'db/session.php';
 }
 if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['mentor_id'])){
-    $mentee_id = $_SESSION['userinfo']['id'];
-    $mentor_id = $_POST['mentor_id'];
-    $qry = "INSERT INTO `requests` (`mentee_id`, `mentor_id`) 
-            VALUES ('".$mentee_id."', '".$mentor_id."')";
-    mysqli_query($conn, $qry);
-    sendEmail($_POST['email'], 'Mentee <b>'.$_SESSION['userinfo']['name']."</b> send to you request <br>
-To show request click button below", 'New request');
-    header('Location: '.$_SERVER['PHP_SELF']);
-}
 
-function sendEmail($email, $bodyText, $subject):void{
-    include 'url.php';
-    $url = url()['url'] . $_SERVER['HTTP_HOST'] . url()['path'].'/my_page.php';
-    include 'sendEmail.php';
-    $body = $bodyText." <br> 
-<a href='".$url."' style='cursor: pointer;'>
-<button style='padding: 0.25rem 1rem;cursor: pointer;color: #fff;
-    background-color: #5f7a92;
-    display: inline-block;
-    font-weight: 400;
-    text-align: center;
-    white-space: nowrap;
-    vertical-align: middle;    user-select: none;
-    border: 1px solid transparent;font-size: 1rem;
-    line-height: 1.5;'>
-   Click here
-</button>
-
-</a>
-<hr>
-If you are can't click button you copy and past link bellow in your browser
-<br>".$url ;
-    send($email, $subject, $body);
-}
-
-$isHaveRequest = false;
-if ($_SESSION['userinfo']){
-    $qry_request = "SELECT * FROM `requests` WHERE `status` != 'decline' AND `mentee_id` = ".$_SESSION['userinfo']['id'];
-    $qry_request = mysqli_query($conn, $qry_request);
-    if ($qry_request->num_rows > 0
-        && $qry_request->fetch_assoc()['status'] != 'decline'){
-        $isHaveRequest = true;
-    }
-}
-
-$qry = "SELECT * FROM `users` WHERE `status` = 'active' AND `level` > 4";
-$qry = mysqli_query($conn, $qry);
-
-$mentors = [];
-while ($row = $qry->fetch_assoc()){
-    unset($row['password']);
-    $mentors[] = $row;
 }
 
 require 'header.php';
@@ -66,7 +15,7 @@ require 'header.php';
     <div class="container">
         <div class="row align-items-end">
             <div class="col-lg-7">
-                <h2 class="mb-0">Mentors</h2>
+                <h2 class="mb-0">Tutoring</h2>
                 <p></p>
             </div>
         </div>
@@ -78,14 +27,14 @@ require 'header.php';
     <div class="container">
         <a href="index.php">Home</a>
         <span class="mx-3 icon-keyboard_arrow_right"></span>
-        <span class="current">Mentors</span>
+        <span class="current">Tutoring</span>
     </div>
 </div>
 
 <div class="site-section">
     <div class="container">
         <div class="row">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="branch">Branch</label>
                     <select class="form-control form-control-lg p-1" id="branch" name="branch">
@@ -98,7 +47,7 @@ require 'header.php';
                     </select>
                 </div>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="level">Level</label>
                     <select class="form-control form-control-lg p-1" id="level" name="level">
@@ -109,16 +58,7 @@ require 'header.php';
                     </select>
                 </div>
             </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="gender">Gender</label>
-                    <select class="form-control form-control-lg p-1" id="gender" name="gender">
-                        <option value="Female">Female</option>
-                        <option value="Male">Male</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="form-group">
                     <label for="college">College</label>
                     <select class="form-control form-control-lg p-1" id="college" name="college">
@@ -130,72 +70,23 @@ require 'header.php';
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <button class="btn btn-success px-4 ml-4">Add new tutoring</button>
+        </div>
+
         <div class="row mt-4" id="mentors_container">
-            <?php
-            foreach ($mentors as $mentor){
-                ?>
-                <div class="col-md-3 mb-5">
-                    <div class="course-1-item">
-                        <figure class="thumnail">
-                            <a href="single.html">
-                                <?php
-                                if ($mentor['gender'] == 'Male'){
-                                    $avatar = 'images/man.png';
-                                }else{
-                                    $avatar = 'images/woman.png';
-                                }
-                                ?>
-                                <img src="<?php echo $avatar; ?>" alt="Image" class="img-fluid">
-                            </a>
-
-                            <div class="category">
-                                <h3><?php echo $mentor['name']; ?></h3>
-                            </div>
-                        </figure>
-                        <div class="course-1-content pt-0 pb-1">
-                            <div class="row text-left">
-                                <span class="font-weight-bold text-dark pr-1 m-0">College </span>
-                                <span class="w-100" style="white-space: nowrap; overflow: hidden;">
-                                            <?php echo $mentor['college']; ?>
-                                        </span>
-                            </div>
-                            <div class="row justify-content-center py-1 bg-light border-bottom border-top">
-                                        <span class="font-weight-bold text-dark">
-                                            Level <?php echo $mentor['level']; ?>
-                                        </span>
-                            </div>
-                            <div class="row">
-                                <span class="font-weight-bold text-dark pr-1 m-0">Rating</span>
-                                <div class="rating text-center mb-3 w-100">
-                                    <?php
-                                    for ($i=0; $i<5; $i++){
-                                        if ($i < $mentor['rate'] && $mentor['rate'] > 0){
-                                            echo '<span class="icon-star2 text-warning"></span>';
-                                        }else{
-                                            echo '<span class="icon-star2 text-secondary"></span>';
-                                        }
-                                    }
-                                    ?>
-                                </div>
-                            </div>
-                            <?php
-                            if ($_SESSION['userinfo'] && empty($_SESSION['userinfo']['supervisor_id']) && !$isHaveRequest){
-                                ?>
-                                <form method="post" class="row justify-content-center">
-                                    <input type="hidden" name="mentor_id" value="<?php echo $mentor['id']; ?>">
-                                    <input type="hidden" name="email" value="<?php echo $mentor['email']; ?>">
-                                    <button type="submit" class="btn btn-primary rounded-0 px-4">Request</button>
-                                </form>
-                                <?php
-                            }
-                            ?>
-                        </div>
-                    </div>
+            <div class="card col-12">
+                <div class="card-body">
+                    <table class="table border-0">
+                        <tr>
+                            <td>Title</td>
+                            <td>Replay number</td>
+                            <td>status</td>
+                        </tr>
+                    </table>
                 </div>
-
-                <?php
-            }
-            ?>
+            </div>
         </div>
     </div>
 </div>
@@ -278,12 +169,6 @@ require 'header.php';
         level = $(this).val()
         getData()
     })
-    const genderEle = $('#gender')
-    var gender = genderEle.val()
-    genderEle.on('change', function (){
-        gender = $(this).val()
-        getData()
-    })
     const collegeEle = $('#college')
     var college = collegeEle.val()
     collegeEle.on('change', function (){
@@ -291,6 +176,7 @@ require 'header.php';
         getData()
     })
     function getData(){
+    /*
         $.ajax({
             url: "db/ajax_get_mentor.php",
             type: "POST",
@@ -310,6 +196,7 @@ require 'header.php';
                 }
             }
         });
+    */
     }
     function renderMentors(ele, data){
         var txt = ''
