@@ -59,6 +59,17 @@ include 'header.php';
                                 type="email" name="email" id="email" class="form-control form-control-lg">
                         </div>
                         <div class="col-md-12 form-group">
+                            <label for="branch">Branch</label>
+                            <select name="branch" id="branch" class="form-control form-control-lg p-1">
+                                <option value="Riyadh" <?php if ($_SESSION['userinfo']['branch'] == 'Riyadh') echo 'selected'; ?>>Riyadh</option>
+                                <option value="Jeddah" <?php if ($_SESSION['userinfo']['branch'] == 'Jeddah') echo 'selected'; ?>>Jeddah</option>
+                                <option value="Dammam" <?php if ($_SESSION['userinfo']['branch'] == 'Dammam') echo 'selected'; ?>>Dammam</option>
+                                <option value="Medina" <?php if ($_SESSION['userinfo']['branch'] == 'Medina') echo 'selected'; ?>>Medina</option>
+                                <option value="Qassim" <?php if ($_SESSION['userinfo']['branch'] == 'Qassim') echo 'selected'; ?>>Qassim</option>
+                                <option value="Abha" <?php if ($_SESSION['userinfo']['branch'] == 'Abha') echo 'selected'; ?>>Abha</option>
+                            </select>
+                        </div>
+                        <div class="col-md-12 form-group">
                             <label for="gender">Gender</label>
                             <select name="gender" id="gender" class="form-control form-control-lg p-1">
                                 <?php

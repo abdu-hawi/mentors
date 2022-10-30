@@ -59,6 +59,12 @@ include 'header.php';
                         </label>
                     </div>
                     <div class="col-md-12 form-group">
+                        <label>Branch</label>
+                        <label class="col-12 border-bottom border-info">
+                            <?php echo $_SESSION['userinfo']['branch'] ?>
+                        </label>
+                    </div>
+                    <div class="col-md-12 form-group">
                         <label>Gender</label>
                         <label class="col-12 border-bottom border-info">
                             <?php echo $_SESSION['userinfo']['gender'] ?>

@@ -25,6 +25,7 @@ if (
     isset($_POST['college']) && !empty($_POST['college']) &&
     isset($_POST['level']) && !empty($_POST['level']) &&
     isset($_POST['major']) && !empty($_POST['major']) &&
+    isset($_POST['branch']) && !empty($_POST['branch']) &&
     isset($_POST['mobile']) && !empty($_POST['mobile'])
 ){
     if ($_POST['pwd'] !== $_POST['password']){
@@ -38,6 +39,7 @@ if (
     $name = trim($_POST['name']);
     $email = trim($_POST['email']);
     $gender = trim($_POST['gender']);
+    $branch = trim($_POST['branch']);
     $date_of_birthday = trim($_POST['date_of_birthday']);
     $college = trim($_POST['college']);
     $level = trim($_POST['level']);
@@ -48,7 +50,8 @@ if (
                    `email`='".$email."',`gender`='".$gender."', `password`='".$password."',
                    `date_of_birthday`='".$date_of_birthday."',`college`='".$college."',
                    `level`='".$level."',`major`='".$major."',
-                   `mobile`='".$mobile."' 
+                   `mobile`='".$mobile."' ,
+                   `branch`='".$branch."' 
                    WHERE `id` = ".$_SESSION['userinfo']['id']." 
                    AND `email` = '".$_SESSION['userinfo']['email']."'";
 

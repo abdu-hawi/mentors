@@ -13,6 +13,7 @@ if (
     isset($_POST['level']) && !empty($_POST['level']) &&
     isset($_POST['major']) && !empty($_POST['major']) &&
     isset($_POST['mobile']) && !empty($_POST['mobile']) &&
+    isset($_POST['branch']) && !empty($_POST['branch']) &&
     isset($_POST['pwd']) && !empty($_POST['pwd'])
 ){
     if ($_POST['pwd'] !== $_POST['password']){
@@ -30,12 +31,13 @@ if (
     $level = trim($_POST['level']);
     $major = trim($_POST['major']);
     $mobile = trim($_POST['mobile']);
+    $branch = trim($_POST['branch']);
 
     $qry = "INSERT INTO `users` (`id`, `name`, `email`, `gender`, `password`, `date_of_birthday`,
-                     `college`, `level`, `major`, `mobile`) VALUES
+                     `college`, `level`, `major`, `mobile`, `branch`) VALUES
         ('".$id."', '".$name."', '".$email."', '".$gender."', '".$password."',
         '".$date_of_birthday."', '".$college."', '".$level."', '".$major."',
-         '".$mobile."')";
+         '".$mobile."', '".$branch."')";
 
     if (mysqli_query($conn, $qry)) {
         header('Location: ../login.php');

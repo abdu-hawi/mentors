@@ -99,7 +99,7 @@
                                 <a href="index.php" class="nav-link text-left">Home</a>
                             </li>
                             <li>
-                                <a href="mentor.html" class="nav-link text-left">Mentors</a>
+                                <a href="mentor.php" class="nav-link text-left">Mentors</a>
                             </li>
                             <li>
                                 <a href="about.html" class="nav-link text-left">About Us</a>
