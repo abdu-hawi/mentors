@@ -38,8 +38,8 @@ function send($email, $subject, $body){
     $mail->Host = 'smtp.mailtrap.io';
     $mail->SMTPAuth = true;
     $mail->Port = 2525;
-    $mail->Username = '901a6548718213';
-    $mail->Password = 'a1c035517e6637';
+    $mail->Username = '48d82a3ea2cc18';
+    $mail->Password = 'a5090614c6ecc9';
 
     $mail->setFrom('myEmail@gmail.com', 'Abdu');
     $mail->Subject = "=?UTF-8?B?" . base64_encode($subject) . "?=";
