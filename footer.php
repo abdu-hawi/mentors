@@ -5,7 +5,7 @@
             <div class="col-lg-3">
                 <p class="mb-4"><img src="images/student mentorship system logo.png" alt="Image" class="img-fluid"></p>
                 <p>My Mentor development by Muneerah Alsaud, Shurooq AlMalki, May Alharbi..</p>
-                <p><a href="about.html">Learn More</a></p>
+                <p><a href="about.php">Learn More</a></p>
             </div>
 
 

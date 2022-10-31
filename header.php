@@ -108,7 +108,10 @@
                                 <a href="about.php" class="nav-link text-left">About Us</a>
                             </li>
                             <li>
-                                <a href="#" class="nav-link text-left">Contact</a>
+                                <a href="contact.php" class="nav-link text-left">Contact</a>
+                            </li>
+                            <li>
+                                <a href="faqs.php" class="nav-link text-left">FAQs</a>
                             </li>
                         </ul>
                     </nav>

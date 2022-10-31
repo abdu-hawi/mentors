@@ -9,6 +9,7 @@ foreach ($l as $k=>$ll){
         $path = $ll;
         $page_name = ucfirst(explode('.', $ll)[0]);
         if ($page_name == 'Index') $page_name = 'Dashboard';
+        elseif ($page_name == 'Faqs') $page_name = 'FAQs';
         break;
     }
     $path = 'index.php';
@@ -53,8 +54,11 @@ function get_menu(string $name, string $icon): string{
         </div>
         <div class="list-group list-group-flush my-3">
             <?php echo get_menu('Dashboard', 'fas fa-tachometer-alt'); ?>
+            <?php echo get_menu('Academics', 'fa-solid fa-chalkboard'); ?>
             <?php echo get_menu('Mentors', 'fa-solid fa-chalkboard-user'); ?>
             <?php echo get_menu('Mentees', 'fa-solid fa-users-rectangle'); ?>
+            <?php echo get_menu('Contacts', 'fa-solid fa-envelope'); ?>
+            <?php echo get_menu('FAQs', 'fa-solid fa-file-circle-question'); ?>
         </div>
     </div>
     <!-- /#sidebar-wrapper -->

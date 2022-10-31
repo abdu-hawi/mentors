@@ -29,7 +29,6 @@ while ($row = $qry->fetch_assoc()){
     </div>
 </div>
 
-
 <div class="custom-breadcrumns border-bottom">
     <div class="container">
         <a href="index.php">Home</a>

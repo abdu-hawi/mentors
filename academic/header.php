@@ -59,6 +59,7 @@ function get_menu(string $name, string $icon): string{
         </div>
         <div class="list-group list-group-flush my-3">
             <?php echo get_menu('Dashboard', 'fas fa-tachometer-alt'); ?>
+            <?php echo get_menu('Account', 'fa-solid fa-address-card'); ?>
             <?php echo get_menu('Approve rating', 'fas fa-star-half-stroke'); ?>
             <?php echo get_menu('Add volunteer hour', 'fa-solid fa-hand-holding-medical'); ?>
             <?php /*echo get_menu('Mentors', 'fa-solid fa-chalkboard-user'); */?><!--
