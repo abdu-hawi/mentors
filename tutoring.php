@@ -4,11 +4,18 @@ include 'db/db.php';
 if (session_status() != PHP_SESSION_ACTIVE) {
     require 'db/session.php';
 }
-if($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['mentor_id'])){
-
-}
-
 require 'header.php';
+$qry = "SELECT `tutoring`.*, COUNT(`tutoring_id`) AS `replay_count`, `updated_at` 
+    FROM `tutoring` 
+    LEFT JOIN `tutoring_replays` ON `tutoring_replays`.`tutoring_id` = `tutoring`.`id`
+    GROUP BY 1
+    ORDER BY `tutoring`.`id` DESC";
+$qry = mysqli_query($conn, $qry);
+
+$tutorings = [];
+while ($row = $qry->fetch_assoc()){
+    $tutorings[] = $row;
+}
 ?>
 
 <div class="site-section ftco-subscribe-1 site-blocks-cover pb-4" style="background-image: url('images/bg_1.jpg')">
@@ -51,6 +58,10 @@ require 'header.php';
                 <div class="form-group">
                     <label for="level">Level</label>
                     <select class="form-control form-control-lg p-1" id="level" name="level">
+                        <option value="1">Level 1</option>
+                        <option value="2">Level 2</option>
+                        <option value="3">Level 3</option>
+                        <option value="4">Level 4</option>
                         <option value="5">Level 5</option>
                         <option value="6">Level 6</option>
                         <option value="7">Level 7</option>
@@ -72,21 +83,111 @@ require 'header.php';
         </div>
 
         <div class="row">
-            <button class="btn btn-success px-4 ml-4">Add new tutoring</button>
+            <button class="btn btn-success px-4 ml-4" data-toggle="collapse"
+                    href="#newTutoring">
+                Add new tutoring
+            </button>
+        </div>
+        <div class="row collapse" id="newTutoring">
+            <form method="post" action="db/tutoring_post.php">
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                        <label for="fullname">Name</label>
+                        <input type="text" name="name" id="fullname" class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="branch">Branch</label>
+                        <select name="branch" id="branch" class="form-control form-control-lg p-1">
+                            <option value="Riyadh">Riyadh</option>
+                            <option value="Jeddah">Jeddah</option>
+                            <option value="Dammam">Dammam</option>
+                            <option value="Medina">Medina</option>
+                            <option value="Qassim">Qassim</option>
+                            <option value="Abha">Abha</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="college">College</label>
+                        <select name="college" id="college" class="form-control form-control-lg p-1">
+                            <option selected disabled>Select your college</option>
+                            <option value="Computing and Informatics">Computing and Informatics</option>
+                            <option value="Administrative and Financial Science">Administrative and Financial Science</option>
+                            <option value="Health Science">Health Science</option>
+                            <option value="Science and Theoretical Studies">Science and Theoretical Studies</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="major">Major</label>
+                        <input type="text" name="major" id="major" class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-6 form-group">
+                        <label for="level">Level</label>
+                        <select name="level" id="level" class="form-control form-control-lg p-1">
+                            <option selected disabled>Select your level</option>
+                            <option value="1">Level 1</option>
+                            <option value="2">Level 2</option>
+                            <option value="3">Level 3</option>
+                            <option value="4">Level 4</option>
+                            <option value="5">Level 5</option>
+                            <option value="6">Level 6</option>
+                            <option value="7">Level 7</option>
+                            <option value="8">Level 8</option>
+                        </select>
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <label for="title">Title</label>
+                        <input type="text" name="title" id="title" class="form-control form-control-lg">
+                    </div>
+                    <div class="col-md-12 form-group">
+                        <label for="subject">Subject</label>
+                        <textarea name="subject" id="subject" rows="7" class="form-control form-control-lg"></textarea>
+                    </div>
+
+
+                </div>
+                <input type="submit" class="btn btn-primary" value="Add Tutoring">
+            </form>
         </div>
 
-        <div class="row mt-4" id="mentors_container">
-            <div class="card col-12">
-                <div class="card-body">
-                    <table class="table border-0">
-                        <tr>
-                            <td>Title</td>
-                            <td>Replay number</td>
-                            <td>status</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
+        <div class="row mt-4" id="tutoring_container">
+            <?php
+            foreach ($tutorings as $tutoring){
+            ?>
+                <a href="show_tutoring.php?tutoring=<?php echo $tutoring['id'];?>" class="col-12 mb-2">
+                    <div class="card card-body border-primary">
+                        <table class="table mb-0">
+                            <tr class="">
+                                <th class="border-0 p-0 w-50 text-primary">Title</th>
+                                <th class="border-0 p-0 w-25 text-primary text-center">Replay number</th>
+                                <th class="border-0 p-0 w-25 text-primary text-center">Date</th>
+                                <th class="border-0 p-0 text-primary text-center">status</th>
+                            </tr>
+                            <tr>
+                                <td class="border-0 p-0"><?php echo $tutoring['title'];?></td>
+                                <td class="border-0 p-0 text-center"><?php echo $tutoring['replay_count'];?></td>
+                                <td class="border-0 p-0 text-center">
+                                    <?php
+                                    if (empty( $tutoring['updated_at'])){
+                                        echo $tutoring['created_at'];
+                                    }else{
+                                        echo $tutoring['updated_at'];
+                                    }
+                                    ?>
+                                </td>
+                                <?php
+                                    if ($tutoring['status'])
+                                        echo '<td class="border-0 p-0 text-danger text-center">Closed</td>';
+                                    else
+                                        echo '<td class="border-0 p-0 text-success text-center">Open</td>';
+
+                                ?>
+                            </tr>
+                        </table>
+                    </div>
+                </a>
+            <?php
+            }
+            ?>
         </div>
     </div>
 </div>
@@ -99,7 +200,7 @@ require 'header.php';
             <div class="col-lg-3">
                 <p class="mb-4"><img src="images/student mentorship system logo.png" alt="Image" class="img-fluid"></p>
                 <p>My Mentor development by Muneerah Alsaud, Shurooq AlMalki, May Alharbi..</p>
-                <p><a href="about.html">Learn More</a></p>
+                <p><a href="about.php">Learn More</a></p>
             </div>
 
 
@@ -176,76 +277,53 @@ require 'header.php';
         getData()
     })
     function getData(){
-    /*
         $.ajax({
-            url: "db/ajax_get_mentor.php",
+            url: "db/ajax_get_tutoring.php",
             type: "POST",
-            data: {branch: branch, college:college, level:level, gender:gender},
+            data: {branch: branch, college:college, level:level},
             success: function(data)
             {
                 console.log(data)
                 var mydata = JSON.parse(data)
                 if (mydata.status){
-                    let mentors_container = $('#mentors_container')
-                    mentors_container.empty()
-                    if (mydata.mentors.length > 0){
-                        renderMentors(mentors_container, mydata.mentors)
+                    let tutoring_container = $('#tutoring_container')
+                    tutoring_container.empty()
+                    if (mydata.tutorings.length > 0){
+                        renderMentors(tutoring_container, mydata.tutorings)
                     }else {
-                        mentors_container.append("<h3 class='text-center w-100'>Not has mentor by your selected</h3>")
+                        tutoring_container.append("<h3 class='text-center w-100'>Not has tutoring by your selected</h3>")
                     }
                 }
             }
         });
-    */
     }
     function renderMentors(ele, data){
         var txt = ''
         $.each(data, function (k,v){
-            txt += '' +
-                '<div class="col-md-3 mb-5">'+
-                '<div class="course-1-item">'+
-                '<figure class="thumnail">'+
-                '<a href="single.html">'
-            if(v.gender == 'Male'){
-                var avatar = 'images/man.png'
-            }else{
-                var avatar = 'images/woman.png'
-            }
-            txt += '<img src="'+avatar+'" alt="Image" class="img-fluid"></a>'+
-                '<div class="category"><h3>'+v.name+'</h3></div></figure>'+
-                '<div class="course-1-content pt-0 pb-1">'+
-                '<div class="row text-left">'+
-                '<span class="font-weight-bold text-dark pr-1 m-0">College </span>'+
-                '<span class="w-100" style="white-space: nowrap; overflow: hidden;">'+v.college+'</span></div>'+
-
-
-                '<div class="row justify-content-center py-1 bg-light border-bottom border-top">'+
-                '<span class="font-weight-bold text-dark">Level '+v.level+
-
-                '</span>'+
-                '</div>'+
-                '<div class="row">'+
-                '<span class="font-weight-bold text-dark pr-1 m-0">Rating</span>'+
-                '<div class="rating text-center mb-3 w-100">'
-            for (var i = 0; i < 5; i++) {
-                if (i<v.rate && v.rate > 0){
-                    txt += '<span class="icon-star2 text-warning"></span>'
-                }else {
-                    txt += '<span class="icon-star2 text-secondary"></span>'
+            txt += '<a href="show_tutoring.php?tutoring='+v.id+'" class="col-12 mb-2">'+
+                '<div class="card card-body border-primary">'+
+                '<table class="table mb-0">'+
+                '<tr class="">'+
+                '<th class="border-0 p-0 w-50 text-primary">Title</th>'+
+            '<th class="border-0 p-0 w-25 text-primary text-center">Replay number</th>'+
+            '<th class="border-0 p-0 w-25 text-primary text-center">Date</th>'+
+            '<th class="border-0 p-0 text-primary text-center">status</th>'+
+        '</tr>'+
+            '<tr>'+
+                '<td class="border-0 p-0">'+v.title+'</td>'+
+                '<td class="border-0 p-0 text-center">'+v.replay_count+'</td>'+
+                '<td class="border-0 p-0 text-center">'
+                if(v.updated_at != 'null'){
+                    txt += v.created_at
+                }else{
+                    txt += v.updated_at
                 }
-            }
-            txt += '</div> </div>'
-            <?php
-            if ($_SESSION['userinfo'] && empty($_SESSION['userinfo']['supervisor_id']) && !$isHaveRequest){
-            ?>
-            txt += '<form method="post" class="row justify-content-center">'+
-                '<input type="hidden" name="mentor_id" value="'+v.id+'">'+
-                '<input type="hidden" name="email" value="'+v.email+'">'+
-                '<button type="submit" class="btn btn-primary rounded-0 px-4">Request</button> </form>'
-            <?php
-            }
-            ?>
-            txt += '</div></div></div>'
+                txt += '</td>'
+            if (v.status == 1)
+                txt += '<td class="border-0 p-0 text-danger text-center">Closed</td>'
+            else
+                txt += '<td class="border-0 p-0 text-success text-center">Open</td>'
+            txt += '</tr></table></div></a>'
         })
         ele.append(txt)
     }
